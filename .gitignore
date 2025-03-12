@@ -1,0 +1,12 @@
+__pycache__/
+.coverage
+.env
+.pytest_cache/
+.venv/
+*.log
+*.png
+htmlcov/
+log.html
+output.xml
+report.html
+*.bib
