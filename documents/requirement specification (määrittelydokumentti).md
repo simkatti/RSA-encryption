@@ -7,8 +7,11 @@ This project is done with python and uses poetry as dependecy management. For pe
 
 ### Algorithms
 **Miller-Rabin** algorithm to generate the two large prime numbers 
+
 **Sieve of Eratosthenes** algorithm to pregenerate small prime numbers to help finding the large prime numberes
+
 **Euclidean algorithm** to compute the *Carmichael's totient function* in key generation
+
 **Modular exponentiation** for encryption and decryption
 
 ### Inputs
@@ -19,6 +22,9 @@ Finding the large prime numbers is most expensive task of the program and its ti
 
 ### References
 [RSA](https://en.wikipedia.org/wiki/RSA_(cryptosystem))
+
 [Miller-Rabin](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test)
+
 [Carmichael function](https://en.wikipedia.org/wiki/Carmichael_function)
+
 [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
