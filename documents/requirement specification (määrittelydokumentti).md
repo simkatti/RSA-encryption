@@ -1,12 +1,12 @@
 ## Requirement document
 This is a course project for the "Algorithms and AI Lab" course in University of Helsinki's bachelor program in computer science. This project focuses on RSA encryption and decryption with the 2048 bit security standard. 
 
-The RSA generates a public and private key using two large prime numbers which are found using Miller-Rabins algorithm. The message of ASCII characters are turned into integers which can be encrypted and decrypted with public and private key. 
+The RSA generates a public and private key using two large prime numbers which are generated randomly (in range $2^{n-1} + 1, 2^n -1$) and validated using Miller-Rabins algorithm. The message of ASCII characters are turned into integers which can be encrypted and decrypted with public and private key. 
 
 This project is done with python and uses poetry as dependecy management. For peer-reviewing other projects I'd prefer python aswell. 
 
 ### Algorithms
-**Miller-Rabin** algorithm to generate the two large prime numbers 
+**Miller-Rabin** algorithm to validate the large prime numbers
 
 **Sieve of Eratosthenes** algorithm to pregenerate small prime numbers to help finding the large prime numberes
 
@@ -28,3 +28,5 @@ Finding the large prime numbers is most expensive task of the program and its ti
 [Carmichael function](https://en.wikipedia.org/wiki/Carmichael_function)
 
 [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
+
+[How to generate large prime numbers for RSA](https://www.geeksforgeeks.org/how-to-generate-large-prime-numbers-for-rsa-algorithm/)
