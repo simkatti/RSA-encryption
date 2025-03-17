@@ -1,5 +1,6 @@
 import tkinter as tk
 import threading
+from encryption import Encryptor
 
 """
 GUI for the program
@@ -19,11 +20,11 @@ class GUI:
         self.title = tk.Label(
             root, text="Write your message (max 256 characters):",
             bg=BACKGROUND_COLOR, fg=FONT_COLOR, font=("Monospace", 12))
-        self.title.place(relx=0.5, rely=0.2, anchor="center")
+        self.title.place(relx=0.5, rely=0.15, anchor="center")
         self.message_input = tk.Text(
             root,
             width=50,
-            height=7,
+            height=10,
             bg=BACKGROUND_COLOR,
             fg=FONT_COLOR,
             insertbackground=FONT_COLOR,
@@ -44,7 +45,7 @@ class GUI:
             font=(
                 "Monospace",
                 12))
-        self.ok_button.place(relx=0.5, rely=0.6, anchor="center")
+        self.ok_button.place(relx=0.5, rely=0.75, anchor="center")
 
     def show_message(self):
         self.message = self.message_input.get("1.0", "end-1c")
@@ -55,7 +56,7 @@ class GUI:
             self.title.place_forget()
             self.title.config(
                 text=f"Message should be between 1 - 256 characters. \n Your message is {len(self.message)} characters.", fg="red")
-            self.title.place(relx=0.5, rely=0.2, anchor="center")
+            self.title.place(relx=0.5, rely=0.15, anchor="center")
         else:
             self.title.place_forget()
             self.message_input.place_forget()
@@ -64,7 +65,7 @@ class GUI:
             self.output = tk.Text(
                 root,
                 width=50,
-                height=7,
+                height=15,
                 bg=BACKGROUND_COLOR,
                 fg=FONT_COLOR,
                 insertbackground=FONT_COLOR,
@@ -75,7 +76,7 @@ class GUI:
                     12))
             self.output.insert("1.0", self.message)
             self.output.config(state=tk.DISABLED)
-            self.output.place(relx=0.5, rely=0.4, anchor="center")
+            self.output.place(relx=0.5, rely=0.5, anchor="center")
 
             self.encrypt_button = tk.Button(
                 self.root,
@@ -86,7 +87,7 @@ class GUI:
                 font=(
                     "Monospace",
                     12))
-            self.encrypt_button.place(relx=0.5, rely=0.6, anchor="center")
+            self.encrypt_button.place(relx=0.5, rely=0.75, anchor="center")
 
     def initialise_encryption(self):
         self.encrypt_button.place_forget()
@@ -101,7 +102,7 @@ class GUI:
 
     def show_encrypted(self):
         self.title.config(text="Encrypted:", fg=FONT_COLOR)
-        self.title.place(relx=0.5, rely=0.2, anchor="center")
+        self.title.place(relx=0.5, rely=0.15, anchor="center")
 
         self.output.config(state=tk.NORMAL)
         self.output.delete("1.0", tk.END)
@@ -117,7 +118,7 @@ class GUI:
             font=(
                 "Monospace",
                 12))
-        self.decrypt_button.place(relx=0.5, rely=0.6, anchor="center")
+        self.decrypt_button.place(relx=0.5, rely=0.75, anchor="center")
 
     def initialise_decryption(self):
         self.decrypt_button.place_forget()
@@ -134,7 +135,7 @@ class GUI:
         self.output.insert("1.0", self.decrypted_message)
         self.output.config(state=tk.DISABLED)
         self.title.config(text="Decrypted:")
-        self.title.place(relx=0.5, rely=0.2, anchor="center")
+        self.title.place(relx=0.5, rely=0.15, anchor="center")
 
         self.reset_button = tk.Button(
             self.root,
@@ -145,7 +146,7 @@ class GUI:
             font=(
                 "Monospace",
                 12))
-        self.reset_button.place(relx=0.5, rely=0.6, anchor="center")
+        self.reset_button.place(relx=0.5, rely=0.75, anchor="center")
 
     def reset(self):
         self.output.place_forget()
@@ -153,22 +154,23 @@ class GUI:
         self.title.config(text="Write your message:")
         self.message_input.delete("1.0", tk.END)
 
-        self.title.place(relx=0.5, rely=0.2, anchor="center")
+        self.title.place(relx=0.5, rely=0.15, anchor="center")
         self.message_input.place(relx=0.5, rely=0.4, anchor="center")
-        self.ok_button.place(relx=0.5, rely=0.6, anchor="center")
+        self.ok_button.place(relx=0.5, rely=0.75, anchor="center")
 
 
 """
 dummy functions as placeholders
 """
-
+e = Encryptor()
 
 def encrypt_message(message):
-    return message[::-1]
+    encrypted_message = e.perform_encryption(message)
+    return encrypted_message
 
 
 def decrypt_message(encrypted):
-    return encrypted[::-1]
+    return "I guess it worked :D"
 
 
 if __name__ == "__main__":
