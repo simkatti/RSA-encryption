@@ -1,5 +1,4 @@
 import tkinter as tk
-import threading
 from encryption import Encryptor
 
 """
@@ -81,7 +80,7 @@ class GUI:
             self.encrypt_button = tk.Button(
                 self.root,
                 text="ENCRYPT",
-                command=self.initialise_encryption,
+                command=self.encrypt,
                 bg=BACKGROUND_COLOR,
                 fg=FONT_COLOR,
                 font=(
@@ -89,14 +88,8 @@ class GUI:
                     12))
             self.encrypt_button.place(relx=0.5, rely=0.75, anchor="center")
 
-    def initialise_encryption(self):
-        self.encrypt_button.place_forget()
-        """
-        threading so the UI doesnt freeze searching the large prime numbers
-        """
-        threading.Thread(target=self.encrypt, daemon=True).start()
-
     def encrypt(self):
+        self.encrypt_button.place_forget()
         self.encrypted_message = encrypt_message(self.message)
         self.root.after(0, self.show_encrypted)
 
@@ -112,7 +105,7 @@ class GUI:
         self.decrypt_button = tk.Button(
             self.root,
             text="DECRYPT",
-            command=self.initialise_decryption,
+            command=self.decrypt,
             bg=BACKGROUND_COLOR,
             fg=FONT_COLOR,
             font=(
@@ -120,12 +113,8 @@ class GUI:
                 12))
         self.decrypt_button.place(relx=0.5, rely=0.75, anchor="center")
 
-    def initialise_decryption(self):
-        self.decrypt_button.place_forget()
-
-        threading.Thread(target=self.decrypt, daemon=True).start()
-
     def decrypt(self):
+        self.decrypt_button.place_forget()
         self.decrypted_message = decrypt_message(self.encrypted_message)
         self.root.after(0, self.show_decrypted)
 

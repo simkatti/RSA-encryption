@@ -3,6 +3,8 @@
 ignore=tests,
         app.py
 
+disable= W0105
+
 [MESSAGE CONTROL]
 
 disable=raw-checker-failed,
