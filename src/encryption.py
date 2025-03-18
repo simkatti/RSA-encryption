@@ -1,4 +1,4 @@
-from keygenerator import KeyGenerator
+from src.keygenerator import KeyGenerator
 
 
 """ascii message is transformed into large integer
@@ -22,6 +22,7 @@ class Encryptor:
 
         n = public_key[0]
         e = public_key[1]
+        print(public_key)
         encrypted = pow(self.m, e, n)
 
         return encrypted
