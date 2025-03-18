@@ -3,7 +3,8 @@
 ignore=tests,
         app.py
 
-disable= W0105
+disable= W0105,
+        W0612 
 
 [MESSAGE CONTROL]
 
