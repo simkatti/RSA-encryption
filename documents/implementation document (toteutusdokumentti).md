@@ -26,7 +26,7 @@ The list of small prime numbers are calculated with the Sieve of Eratosthenes [[
 Miller-Rabins algorithm starts by factoring out the powers of two from the large prime candidate and then repeating modular exponentiation until requirement $n - 1 \equiv -1 \mod n$ is met. I chose k=100 because higher value of k gives higher accuracy weather the n is prime [[3]](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test).
 
 The key components are calculated:
-- $ n = p \cdot q$
+- $n = p \cdot q$
 - $\lambda(n) = (p-1) \cdot (q-1)$
 - $e = 65537$ as it is the most commonly chosen [[4]](https://en.wikipedia.org/wiki/RSA_(cryptosystem)).
 - d is computed by solving the equation $de \equiv 1(\mod \lambda(n))$ with Extended Euclidean Algorithm [[4]](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm).
