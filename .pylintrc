@@ -1,4 +1,6 @@
 [MASTER]
+init-hook='import sys; sys.path.append("src")'
+
 
 ignore=tests,
         app.py
