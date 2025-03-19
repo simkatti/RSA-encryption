@@ -27,6 +27,9 @@ class KeyGenerator:
             q = self.generate_random_prime()
 
         self.n = p * q
+        
+        print(len(self.n.to_bytes(256,byteorder='big')))
+        
         t = (p-1)*(q-1)
         self.e = self.choose_e(t)
         self.d = self.modular_inverse(self.e, t)
@@ -47,7 +50,6 @@ class KeyGenerator:
                 return prime
 
     def generate_random_number(self):
-        """p and q should both be 2048//2 size"""
         large_number = random.getrandbits(1024)
         if large_number % 2 == 0:
             large_number += 1

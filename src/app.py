@@ -1,5 +1,5 @@
 import tkinter as tk
-from src.encryption import Encryptor
+from encryption import Encryptor
 
 """
 GUI for the program
