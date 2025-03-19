@@ -27,9 +27,9 @@ class KeyGenerator:
             q = self.generate_random_prime()
 
         self.n = p * q
-        
+
         print(len(self.n.to_bytes(256,byteorder='big')))
-        
+
         t = (p-1)*(q-1)
         self.e = self.choose_e(t)
         self.d = self.modular_inverse(self.e, t)
