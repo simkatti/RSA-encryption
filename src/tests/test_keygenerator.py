@@ -1,5 +1,5 @@
 import unittest
-from ..keygenerator import KeyGenerator
+from keygenerator import KeyGenerator
 from unittest.mock import patch
 
 class TestKeyGenerator(unittest.TestCase):
@@ -90,4 +90,9 @@ class TestKeyGenerator(unittest.TestCase):
         e = 17
         t = 780
         self.assertEqual(self.kg.modular_inverse(e,t), 413)
+        self.assertIsNone(self.kg.modular_inverse(e,17))
         
+    def test_choose_e(self):
+        e = 65537
+        self.assertEqual(self.kg.choose_e(17),e)
+        self.assertNotEqual(self.kg.choose_e(131074), e)
