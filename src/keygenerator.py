@@ -110,7 +110,7 @@ class KeyGenerator:
         if gcd(e, t) == 1:
             return e
         while True:
-            e = random.randrange(2, t, 2)
+            e = random.randrange(3, t, 2)
             if gcd(e, t) == 1:
                 return e
 
@@ -133,6 +133,4 @@ if __name__ == "__main__": #pragma: no cover
     k = KeyGenerator()
     primes = k.generate_small_primes()
     print(len(primes))
-    e = 17 
-    t = 17
-    print(k.choose_e(t))
+    print(k.choose_e(131074))
