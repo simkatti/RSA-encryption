@@ -133,4 +133,3 @@ if __name__ == "__main__": #pragma: no cover
     k = KeyGenerator()
     primes = k.generate_small_primes()
     print(len(primes))
-
