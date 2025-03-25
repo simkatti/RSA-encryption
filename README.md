@@ -1,4 +1,4 @@
-![GHA workflow badge](https://github.com/simkatti/RSA-encryption/workflows/Pylint/badge.svg)
+![GHA workflow badge](https://github.com/simkatti/RSA-encryption/workflows/Pylint/badge.svg) ![GHA workflow badge](https://github.com/simkatti/RSA-encryption/workflows/CI/badge.svg)
 
 # RSA-encryption
 
