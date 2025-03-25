@@ -5,6 +5,7 @@ from keygenerator import KeyGenerator
 which is then encrypted with modular exponentiation
 and returned back to the GUI"""
 
+
 class Encryptor:
     def __init__(self):
         self.m = None
@@ -23,7 +24,7 @@ class Encryptor:
         n = public_key[0]
         e = public_key[1]
         encrypted = pow(self.m, e, n)
-        print(len(encrypted.to_bytes(256,byteorder='big')))
+        print(len(encrypted.to_bytes(256, byteorder="big")))
+        print(encrypted.bit_length())
 
         return encrypted
-    

@@ -28,9 +28,10 @@ class KeyGenerator:
 
         self.n = p * q
 
-        print(len(self.n.to_bytes(256,byteorder='big')))
+        print(len(self.n.to_bytes(256, byteorder="big")))
+        print(self.n.bit_length())
 
-        t = (p-1)*(q-1)
+        t = (p - 1) * (q - 1)
         self.e = self.choose_e(t)
         self.d = self.modular_inverse(self.e, t)
 
@@ -51,6 +52,7 @@ class KeyGenerator:
 
     def generate_random_number(self):
         large_number = random.getrandbits(1024)
+        large_number |= 1 << 1023
         if large_number % 2 == 0:
             large_number += 1
         return large_number
@@ -66,27 +68,30 @@ class KeyGenerator:
         return True
 
     def generate_small_primes(self):
-        number_list = list(range(0, 1010))
+        """
+        generates 1229 primes
+        """
+        number_list = list(range(0, 10000))
         number_list[0] = False
         number_list[1] = False
-        for i in range(2, 1010):
+        for i in range(2, 10000):
             if number_list[i] is not False:
-                for j in range(i*i, 1010, i):
+                for j in range(i * i, 10000, i):
                     number_list[j] = False
         small_primes = [number for number in number_list if number]
 
         return small_primes
 
     def miller_rabin(self, n):
-        s, d = self.factor_out_powers_of_two(n-1)
+        s, d = self.factor_out_powers_of_two(n - 1)
         for _ in range(100):
             a = random.randint(2, n - 2)
             x = pow(a, d, n)
-            if x in (1, n-1):
+            if x in (1, n - 1):
                 continue
             for _ in range(s):
                 x = pow(x, 2, n)
-                if x == n-1:
+                if x == n - 1:
                     break
             else:
                 return False
@@ -97,7 +102,7 @@ class KeyGenerator:
         d = n
         while d % 2 == 0:
             s += 1
-            d = d//2
+            d = d // 2
         return s, d
 
     def choose_e(self, t):
@@ -105,7 +110,7 @@ class KeyGenerator:
         if gcd(e, t) == 1:
             return e
         while True:
-            e = random.randrange(2,t,2)
+            e = random.randrange(2, t, 2)
             if gcd(e, t) == 1:
                 return e
 
@@ -113,7 +118,7 @@ class KeyGenerator:
         if a == 0:
             return b, 0, 1
         greatest_common_divisor, x1, y1 = self.extended_euclidean(b % a, a)
-        x = y1 - (b//a) * x1
+        x = y1 - (b // a) * x1
         y = x1
         return greatest_common_divisor, x, y
 
@@ -122,3 +127,10 @@ class KeyGenerator:
         if greatest_common_divisor == 1:
             return x % t
         return None
+
+
+if __name__ == "__main__": #pragma: no cover
+    k = KeyGenerator()
+    primes = k.generate_small_primes()
+    print(len(primes))
+

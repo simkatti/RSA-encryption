@@ -5,8 +5,8 @@ from encryption import Encryptor
 GUI for the program
 """
 
-BACKGROUND_COLOR = '#101010'
-FONT_COLOR = '#e4e4e4'
+BACKGROUND_COLOR = "#101010"
+FONT_COLOR = "#e4e4e4"
 
 
 class GUI:
@@ -17,8 +17,12 @@ class GUI:
         self.root.configure(bg=BACKGROUND_COLOR)
 
         self.title = tk.Label(
-            root, text="Write your message (max 256 characters):",
-            bg=BACKGROUND_COLOR, fg=FONT_COLOR, font=("Monospace", 12))
+            root,
+            text="Write your message (max 256 characters):",
+            bg=BACKGROUND_COLOR,
+            fg=FONT_COLOR,
+            font=("Monospace", 12),
+        )
         self.title.place(relx=0.5, rely=0.15, anchor="center")
         self.message_input = tk.Text(
             root,
@@ -29,9 +33,8 @@ class GUI:
             insertbackground=FONT_COLOR,
             bd=2,
             highlightthickness=2,
-            font=(
-                "Monospace",
-                12))
+            font=("Monospace", 12),
+        )
 
         self.message_input.place(relx=0.5, rely=0.4, anchor="center")
 
@@ -41,9 +44,8 @@ class GUI:
             command=self.show_message,
             bg=BACKGROUND_COLOR,
             fg=FONT_COLOR,
-            font=(
-                "Monospace",
-                12))
+            font=("Monospace", 12),
+        )
         self.ok_button.place(relx=0.5, rely=0.75, anchor="center")
 
     def show_message(self):
@@ -54,7 +56,10 @@ class GUI:
         if len(self.message) > 256 or len(self.message) < 1:
             self.title.place_forget()
             self.title.config(
-                text=f"Message should be between 1 - 256 characters. \n Your message is {len(self.message)} characters.", fg="red")
+                text=f"Message should be between 1 - 256 characters. \n Your message is {
+                    len(self.message)} characters.",
+                fg="red",
+            )
             self.title.place(relx=0.5, rely=0.15, anchor="center")
         else:
             self.title.place_forget()
@@ -70,9 +75,8 @@ class GUI:
                 insertbackground=FONT_COLOR,
                 bd=0,
                 highlightthickness=0,
-                font=(
-                    "Monospace",
-                    12))
+                font=("Monospace", 12),
+            )
             self.output.insert("1.0", self.message)
             self.output.config(state=tk.DISABLED)
             self.output.place(relx=0.5, rely=0.5, anchor="center")
@@ -83,9 +87,8 @@ class GUI:
                 command=self.encrypt,
                 bg=BACKGROUND_COLOR,
                 fg=FONT_COLOR,
-                font=(
-                    "Monospace",
-                    12))
+                font=("Monospace", 12),
+            )
             self.encrypt_button.place(relx=0.5, rely=0.75, anchor="center")
 
     def encrypt(self):
@@ -108,9 +111,8 @@ class GUI:
             command=self.decrypt,
             bg=BACKGROUND_COLOR,
             fg=FONT_COLOR,
-            font=(
-                "Monospace",
-                12))
+            font=("Monospace", 12),
+        )
         self.decrypt_button.place(relx=0.5, rely=0.75, anchor="center")
 
     def decrypt(self):
@@ -132,9 +134,8 @@ class GUI:
             command=self.reset,
             bg=BACKGROUND_COLOR,
             fg=FONT_COLOR,
-            font=(
-                "Monospace",
-                12))
+            font=("Monospace", 12),
+        )
         self.reset_button.place(relx=0.5, rely=0.75, anchor="center")
 
     def reset(self):
@@ -152,6 +153,7 @@ class GUI:
 dummy functions as placeholders
 """
 e = Encryptor()
+
 
 def encrypt_message(message):
     encrypted_message = e.perform_encryption(message)
