@@ -133,9 +133,3 @@ if __name__ == "__main__": #pragma: no cover
     primes = k.generate_small_primes()
     print(len(primes))
     print(k.check_if_prime(1049))
-    p = 3709
-    q = 7043
-    t = (p-1)*(q-1)
-    e = 65537    
-    print(k.modular_inverse(e,t))
-
