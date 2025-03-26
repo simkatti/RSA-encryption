@@ -20,11 +20,12 @@ class Encryptor:
         self.m = self.message_to_int(message)
         self.kg.generate_keys()
         public_key = self.kg.get_public_key()
+        private_key = self.kg.get_private_key()
 
         n = public_key[0]
         e = public_key[1]
         encrypted = pow(self.m, e, n)
-        print(len(encrypted.to_bytes(256, byteorder="big")))
-        print(encrypted.bit_length())
+        # print(len(encrypted.to_bytes(256, byteorder="big")))
+        # print(encrypted.bit_length())
 
-        return encrypted
+        return encrypted, public_key, private_key
