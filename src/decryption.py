@@ -14,5 +14,5 @@ class Decryptor:
 
     def int_to_text(self, m):
         msg_bytes = m.to_bytes((m.bit_length() + 7) // 8, "big")
-        msg = msg_bytes.decode('utf-8')   
+        msg = msg_bytes.decode('utf-8')
         return msg
