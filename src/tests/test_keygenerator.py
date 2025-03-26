@@ -1,6 +1,6 @@
 import unittest
 from keygenerator import KeyGenerator
-from unittest.mock import patch
+from unittest import mock
 
 class TestKeyGenerator(unittest.TestCase):
     
@@ -52,24 +52,24 @@ class TestKeyGenerator(unittest.TestCase):
                   7673, 7681, 7687, 7691, 7699, 7703, 7717, 7723, 7727, 7741, 7753, 7757, 7759, 7789, 7793, 7817, 7823, 7829, 7841, 7853, 7867, 7873, 7877, 
                   7879, 7883, 7901, 7907, 7919]
         
-        generated_primes = self.kg.generate_small_primes()
-        print(generated_primes)
-        
+        generated_primes = self.kg.generate_small_primes()        
         self.assertEqual(generated_primes[:1000], primes)
-        self.assertGreaterEqual(generated_primes, primes)
-
-    def test_generate_random_number(self):
+    
+    def test_small_prime_list_for_primality(self):
+        generated_primes = self.kg.generate_small_primes()        
+        for prime in generated_primes:
+            self.assertTrue(self.kg.check_if_prime(prime))        
+        
+    def test_generate_random_number_length(self):
         number = self.kg.generate_random_number()
         self.assertEqual(number.bit_length(), 1024)
         
-    @patch("keygenerator.random.getrandbits")
-    def test_generate_random_number_if_even(self, mock_getrandbits):
+    def test_generate_random_number_if_even(self):
         test_value = 2**1023        
-        mock_getrandbits.return_value = test_value
-        number = self.kg.generate_random_number()
+        with mock.patch('random.getrandbits',return_value=test_value):
+            number = self.kg.generate_random_number()
         self.assertEqual(number, test_value+1)        
-            
-        
+
     def test_check_if_prime(self):
         known_primes = [22861, 28867, 45589, 73609, 105913]
         composite_numbers = [1001, 3027, 5173, 5611, 157979761]
@@ -96,3 +96,35 @@ class TestKeyGenerator(unittest.TestCase):
         e = 65537
         self.assertEqual(self.kg.choose_e(17),e)
         self.assertNotEqual(self.kg.choose_e(131074), e)
+        
+    def test_generate_random_prime(self):
+        small_prime = 1049
+        with mock.patch.object(self.kg, 'generate_random_number', return_value=small_prime):
+            number = self.kg.generate_random_prime()
+        self.assertEqual(small_prime,number)
+        
+    def test_generate_keys(self):
+        p = 3709
+        q = 7043
+        t = (p-1)*(q-1)
+        e = 65537
+        d = 14769305
+        with mock.patch.object(self.kg, 'generate_random_prime', side_effect = [p,q]):
+            self.kg.generate_keys()
+        
+        self.assertEqual(self.kg.n, p*q)
+        self.assertEqual(self.kg.e, e)
+        self.assertEqual(self.kg.d, d)
+        self.assertEqual(self.kg.get_public_key(), (p*q, e))
+        self.assertEqual(self.kg.get_private_key(), (p*q, d))
+        
+    def test_same_p_q_values(self):
+        p_q_values = iter([3709,3709,5861])
+        with mock.patch.object(self.kg, 'generate_random_prime',side_effect= lambda: next(p_q_values)):
+            self.kg.generate_keys()
+        self.assertNotEqual(self.kg.n, 3709*3709)
+        self.assertEqual(self.kg.n, 3709*5861)
+        
+    def test_modulus_size(self):
+        self.kg.generate_keys()
+        self.assertAlmostEqual(self.kg.n.bit_length(), 2048, delta=1)

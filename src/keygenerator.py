@@ -28,9 +28,6 @@ class KeyGenerator:
 
         self.n = p * q
 
-        print(len(self.n.to_bytes(256, byteorder="big")))
-        print(self.n.bit_length())
-
         t = (p - 1) * (q - 1)
         self.e = self.choose_e(t)
         self.d = self.modular_inverse(self.e, t)
@@ -58,6 +55,8 @@ class KeyGenerator:
         return large_number
 
     def check_if_prime(self, number):
+        if number in self.small_primes:
+            return True
         for prime in self.small_primes:
             if number % prime == 0:
                 return False
@@ -133,4 +132,10 @@ if __name__ == "__main__": #pragma: no cover
     k = KeyGenerator()
     primes = k.generate_small_primes()
     print(len(primes))
-    print(k.choose_e(131074))
+    print(k.check_if_prime(1049))
+    p = 3709
+    q = 7043
+    t = (p-1)*(q-1)
+    e = 65537    
+    print(k.modular_inverse(e,t))
+
