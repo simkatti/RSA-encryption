@@ -1,4 +1,4 @@
-## Week 1 report
+## Week 2 report
 
 ### Hours used this week
 26
