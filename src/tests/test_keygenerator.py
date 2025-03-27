@@ -6,6 +6,7 @@ class TestKeyGenerator(unittest.TestCase):
     
     def setUp(self):
         self.kg = KeyGenerator()
+        self.big_prime = 153355987090315769792666300954188490524150644991016723616902588913711211264047935386274221976828924756669490421611895152631891766741399471455919203583546284360664766797970927906468207860606357768708881498193355741773535612223276481917060569596362311885007955287993181247432992931102525581259936893594982995761
         
     def test_generate_small_primes(self):
         primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 
@@ -71,16 +72,16 @@ class TestKeyGenerator(unittest.TestCase):
         self.assertEqual(number, test_value+1)        
 
     def test_check_if_prime(self):
-        known_primes = [22861, 28867, 45589, 73609, 105913]
-        composite_numbers = [1001, 3027, 5173, 5611, 157979761]
+        known_primes = [22861, 28867, 45589, 73609, 105913, self.big_prime]
+        composite_numbers = [1729, 3027, 5173, 5611, 157979761, 340561, 168003672409, 1296000000000390516980400039224154316033673245739218154208769, 2655343122121]
         for prime in known_primes:
             self.assertTrue(self.kg.check_if_prime(prime))
         for number in composite_numbers:
             self.assertFalse(self.kg.check_if_prime(number))
     
     def test_miller_rabin(self):
-        known_primes = [22861, 28867, 45589, 73609, 105913]
-        composite_numbers = [1001, 3027, 5173, 5611, 9921]     
+        known_primes = [22861, 28867, 45589, 73609, 105913, self.big_prime]
+        composite_numbers = [1729, 3027, 5173, 488881, 157979761, 340561, 168003672409, 1296000000000390516980400039224154316033673245739218154208769, 2655343122121, 260849323075371835669784094383812120359260783810157225730623388382401]    
         for prime in known_primes:
             self.assertTrue(self.kg.check_if_prime(prime))
         for number in composite_numbers:
