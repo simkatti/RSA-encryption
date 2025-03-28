@@ -8,6 +8,7 @@ GUI for the program
 
 BACKGROUND_COLOR = "#101010"
 FONT_COLOR = "#e4e4e4"
+FONT = 'Ubuntu Mono'
 
 
 class GUI:
@@ -22,14 +23,14 @@ class GUI:
             text="Write your message (max 256 characters):",
             bg=BACKGROUND_COLOR,
             fg=FONT_COLOR,
-            font=("Monospace", 12),
+            font=(FONT, 15),
         )
         self.subtitle = tk.Label(
             root,
             text="",
             bg = BACKGROUND_COLOR,
             fg=FONT_COLOR,
-            font=("Monospace", 12),
+            font=(FONT, 15),
         )
         
         self.title.place(relx=0.5, rely=0.29, anchor="center")
@@ -42,7 +43,7 @@ class GUI:
             insertbackground=FONT_COLOR,
             bd=2,
             highlightthickness=2,
-            font=("Monospace", 12),
+            font=(FONT, 14),
         )
 
         self.message_input.place(relx=0.5, rely=0.4, anchor="center")
@@ -53,7 +54,7 @@ class GUI:
             command=self.show_message,
             bg=BACKGROUND_COLOR,
             fg=FONT_COLOR,
-            font=("Monospace", 12),
+            font=(FONT, 14),
         )
         self.ok_button.place(relx=0.5, rely=0.85, anchor="center")
 
@@ -83,7 +84,7 @@ class GUI:
                 insertbackground=FONT_COLOR,
                 bd=0,
                 highlightthickness=0,
-                font=("Monospace", 12),
+                font=(FONT, 14),
             )
             self.output.insert("1.0", self.message)
             self.output.config(state=tk.DISABLED)
@@ -95,7 +96,7 @@ class GUI:
                 command=self.encrypt,
                 bg=BACKGROUND_COLOR,
                 fg=FONT_COLOR,
-                font=("Monospace", 12),
+                font=(FONT, 14),
             )
             self.encrypt_button.place(relx=0.5, rely=0.85, anchor="center")
 
@@ -128,7 +129,7 @@ class GUI:
             insertbackground=FONT_COLOR,
             bd=0,
             highlightthickness=0,
-            font=("Monospace", 12),
+            font=(FONT, 14),
         )
         self.show_key.insert("1.0", f"({self.public_key[0]}, {self.public_key[1]})")
         self.show_key.config(state=tk.DISABLED)
@@ -140,7 +141,7 @@ class GUI:
             command=self.decrypt,
             bg=BACKGROUND_COLOR,
             fg=FONT_COLOR,
-            font=("Monospace", 12),
+            font=(FONT, 14),
         )
         self.decrypt_button.place(relx=0.5, rely=0.85, anchor="center")
 
@@ -172,7 +173,7 @@ class GUI:
             command=self.reset,
             bg=BACKGROUND_COLOR,
             fg=FONT_COLOR,
-            font=("Monospace", 12),
+            font=(FONT, 14),
         )
         self.reset_button.place(relx=0.5, rely=0.85, anchor="center")
 
