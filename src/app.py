@@ -1,5 +1,4 @@
 import tkinter as tk
-from PIL import Image, ImageTk
 from encryption import Encryptor
 from decryption import Decryptor
 
