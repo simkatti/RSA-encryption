@@ -1,4 +1,5 @@
 import unittest
+import random
 from keygenerator import KeyGenerator
 from unittest import mock
 
@@ -6,7 +7,16 @@ class TestKeyGenerator(unittest.TestCase):
     
     def setUp(self):
         self.kg = KeyGenerator()
-        self.big_prime = 153355987090315769792666300954188490524150644991016723616902588913711211264047935386274221976828924756669490421611895152631891766741399471455919203583546284360664766797970927906468207860606357768708881498193355741773535612223276481917060569596362311885007955287993181247432992931102525581259936893594982995761
+        self.big_primes = [self.kg.generate_random_prime() for _ in range(10)]
+    
+        self.various_size_primes = []
+        while len(self.various_size_primes) < 10:
+            number = random.getrandbits(random.randint(500,2000))
+            if self.kg.check_if_prime(number):
+                self.various_size_primes.append(number)
+        
+        self.big_composites = [self.big_primes[i] * self.big_primes[i + 1] for i in range(0, len(self.big_primes)- 1, 2)]
+        self.various_size_composites = [self.various_size_primes[i] * self.various_size_primes[i+1] for i in range(0, len(self.various_size_primes)-1,2)]
         
     def test_generate_small_primes(self):
         primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 
@@ -72,20 +82,24 @@ class TestKeyGenerator(unittest.TestCase):
         self.assertEqual(number, test_value+1)        
 
     def test_check_if_prime(self):
-        known_primes = [22861, 28867, 45589, 73609, 105913, self.big_prime]
-        composite_numbers = [1729, 3027, 5173, 5611, 157979761, 340561, 168003672409, 1296000000000390516980400039224154316033673245739218154208769, 2655343122121]
-        for prime in known_primes:
+        for prime in self.big_primes:
             self.assertTrue(self.kg.check_if_prime(prime))
-        for number in composite_numbers:
-            self.assertFalse(self.kg.check_if_prime(number))
+        for prime in self.various_size_primes:
+            self.assertTrue(self.kg.check_if_prime(prime))
+        for composite in self.big_composites:
+            self.assertFalse(self.kg.check_if_prime(composite))
+        for composite in self.various_size_composites:
+            self.assertFalse(self.kg.check_if_prime(composite))
     
     def test_miller_rabin(self):
-        known_primes = [22861, 28867, 45589, 73609, 105913, self.big_prime]
-        composite_numbers = [1729, 3027, 5173, 488881, 157979761, 340561, 168003672409, 1296000000000390516980400039224154316033673245739218154208769, 2655343122121, 260849323075371835669784094383812120359260783810157225730623388382401]    
-        for prime in known_primes:
-            self.assertTrue(self.kg.check_if_prime(prime))
-        for number in composite_numbers:
-            self.assertFalse(self.kg.check_if_prime(number))
+        for prime in self.big_primes:
+            self.assertTrue(self.kg.miller_rabin(prime))
+        for composite in self.big_composites:
+            self.assertFalse(self.kg.miller_rabin(composite))
+        for prime in self.various_size_primes:
+            self.assertTrue(self.kg.miller_rabin(prime))
+        for composite in self.various_size_composites:
+            self.assertFalse(self.kg.miller_rabin(composite))
     
     def test_modular_inverse(self):
         e = 17
@@ -118,6 +132,23 @@ class TestKeyGenerator(unittest.TestCase):
         self.assertEqual(self.kg.d, d)
         self.assertEqual(self.kg.get_public_key(), (p*q, e))
         self.assertEqual(self.kg.get_private_key(), (p*q, d))
+        
+    def test_generate_key_large_values(self):
+        p = self.big_primes[0]
+        q = self.big_composites[3]
+        t = (p-1) * (q-1)
+        e = 65537
+        d = self.kg.modular_inverse(e,t)
+        
+        with mock.patch.object(self.kg, 'generate_random_prime', side_effect = [p,q]):
+            self.kg.generate_keys()
+        
+        self.assertEqual(self.kg.n, p*q)
+        self.assertEqual(self.kg.e, e)
+        self.assertEqual(self.kg.d, d)
+        self.assertEqual(self.kg.get_public_key(), (p*q, e))
+        self.assertEqual(self.kg.get_private_key(), (p*q, d))       
+        
         
     def test_same_p_q_values(self):
         p_q_values = iter([3709,3709,5861])

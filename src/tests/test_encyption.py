@@ -1,5 +1,4 @@
 import unittest
-from keygenerator import KeyGenerator
 from encryption import Encryptor
 from unittest import mock
 
@@ -7,13 +6,13 @@ class TestEncryption(unittest.TestCase):
     def setUp(self):
         self.e = Encryptor()
         self.message = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in'
+        self.symbols = '!?=)&%€äöå023546'
 
 
     def test_message_to_int(self):
-        message = "äöå!18 Hello!"
-        in_bytes = message.encode('utf-8')
+        in_bytes = self.symbols.encode('utf-8')
         expected_value = int.from_bytes(in_bytes, 'big')
-        result = self.e.message_to_int(message)
+        result = self.e.message_to_int(self.symbols)
         self.assertEqual(expected_value, result)
         
     def test_long_message(self):
