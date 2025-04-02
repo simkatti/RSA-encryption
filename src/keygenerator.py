@@ -113,7 +113,7 @@ class KeyGenerator:
             if gcd(e, t) == 1:
                 return e
 
-    def extended_euclidean(self, a, b):  # de ≡ 1 (mod λ(n))
+    def extended_euclidean(self, a, b):  # de ≡ 1 (mod ϕ(n))
         if a == 0:
             return b, 0, 1
         greatest_common_divisor, x1, y1 = self.extended_euclidean(b % a, a)
@@ -132,4 +132,4 @@ if __name__ == "__main__": #pragma: no cover
     k = KeyGenerator()
     primes = k.generate_small_primes()
     print(len(primes))
-    print(k.check_if_prime(1049))
+    print(k.generate_random_prime())
