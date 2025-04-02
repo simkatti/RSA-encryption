@@ -28,9 +28,9 @@ class KeyGenerator:
 
         self.n = p * q
 
-        t = (p - 1) * (q - 1)
+        t = ((p - 1) * (q - 1)) // gcd((p-1),(q-1))
         self.e = self.choose_e(t)
-        self.d = self.modular_inverse(self.e, t)
+        self.d = pow(self.e, -1, t)
 
         self.public_key = (self.n, self.e)
         self.private_key = (self.n, self.d)
@@ -113,23 +113,22 @@ class KeyGenerator:
             if gcd(e, t) == 1:
                 return e
 
-    def extended_euclidean(self, a, b):  # de ≡ 1 (mod ϕ(n))
-        if a == 0:
-            return b, 0, 1
-        greatest_common_divisor, x1, y1 = self.extended_euclidean(b % a, a)
-        x = y1 - (b // a) * x1
-        y = x1
-        return greatest_common_divisor, x, y
+    # def extended_euclidean(self, a, b):  # de ≡ 1 (mod ϕ(n))
+    #     if a == 0:
+    #         return b, 0, 1
+    #     greatest_common_divisor, x1, y1 = self.extended_euclidean(b % a, a)
+    #     x = y1 - (b // a) * x1
+    #     y = x1
+    #     return greatest_common_divisor, x, y
 
-    def modular_inverse(self, e, t):
-        greatest_common_divisor, x, y = self.extended_euclidean(e, t)
-        if greatest_common_divisor == 1:
-            return x % t
-        return None
+    # def modular_inverse(self, e, t):
+    #     greatest_common_divisor, x, y = self.extended_euclidean(e, t)
+    #     if greatest_common_divisor == 1:
+    #         return x % t
+    #     return None
 
 
 if __name__ == "__main__": #pragma: no cover
     k = KeyGenerator()
-    primes = k.generate_small_primes()
-    print(len(primes))
-    print(k.generate_random_prime())
+    primes = k.generate_keys()
+

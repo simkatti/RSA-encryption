@@ -2,6 +2,7 @@ import unittest
 import random
 from keygenerator import KeyGenerator
 from unittest import mock
+from math import gcd
 
 class TestKeyGenerator(unittest.TestCase):
     
@@ -101,11 +102,11 @@ class TestKeyGenerator(unittest.TestCase):
         for composite in self.various_size_composites:
             self.assertFalse(self.kg.miller_rabin(composite))
     
-    def test_modular_inverse(self):
-        e = 17
-        t = 780
-        self.assertEqual(self.kg.modular_inverse(e,t), 413)
-        self.assertIsNone(self.kg.modular_inverse(e,17))
+    # def test_modular_inverse(self): 
+    #     e = 17
+    #     t = 780
+    #     self.assertEqual(self.kg.modular_inverse(e,t), 413)
+    #     self.assertIsNone(self.kg.modular_inverse(e,17))
         
     def test_choose_e(self):
         e = 65537
@@ -121,9 +122,9 @@ class TestKeyGenerator(unittest.TestCase):
     def test_generate_keys(self):
         p = 3709
         q = 7043
-        t = (p-1)*(q-1)
+        t = ((p-1)*(q-1))//gcd(p-1,q-1)
         e = 65537
-        d = 14769305
+        d = pow(e,-1,t)
         with mock.patch.object(self.kg, 'generate_random_prime', side_effect = [p,q]):
             self.kg.generate_keys()
         
@@ -136,9 +137,9 @@ class TestKeyGenerator(unittest.TestCase):
     def test_generate_key_large_values(self):
         p = self.big_primes[0]
         q = self.big_composites[3]
-        t = (p-1) * (q-1)
+        t = ((p-1)*(q-1))//gcd(p-1,q-1)
         e = 65537
-        d = self.kg.modular_inverse(e,t)
+        d = pow(e,-1,t)
         
         with mock.patch.object(self.kg, 'generate_random_prime', side_effect = [p,q]):
             self.kg.generate_keys()
