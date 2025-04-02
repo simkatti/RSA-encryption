@@ -8,7 +8,7 @@
 - Implimented tests for decryptor
 - Intergration test makes sure the input message is same as the output. 
 - Testing document (not done)
-- I changed Euler's totient function to Carmichael's totient function because I read that's the proper way to do it? The Carmichaels is also much easier to compute becaues it can be computed without unneccessary functions. This means that modular inverse function is not needed and it is commented out in the latest code. The totient is now calculated `t = ((p - 1) * (q - 1)) // gcd((p-1),(q-1))` which follows the wikipedia page and d is computed `self.d = pow(self.e, -1, t)` which is `d = e**-1 % t`. The tests works with this way and I tested that both ways (eulers or carmichaels) return same value for d so the algorithm doesnt change. 
+- I changed Euler's totient function to Carmichael's totient function because I read that's the proper way to do it as it [seems to be much faster](https://chemejon.io/how-the-rsa-cryptosystem-works/)? The Carmichaels is also much easier to compute becaues it can be computed without unneccessary functions. This means that modular inverse function is not needed and it is commented out in the latest code. The totient is now calculated `t = ((p - 1) * (q - 1)) // gcd((p-1),(q-1))` which follows the wikipedia page and d is computed `self.d = pow(self.e, -1, t)` which is `d = e**-1 % t`. The tests works with this way and I tested that both ways (eulers or carmichaels) return same value for d so the algorithm doesnt change. 
 
 ### How the project has developed this week
 - Finished the tests, maybe(?)
