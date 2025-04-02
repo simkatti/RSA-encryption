@@ -21,11 +21,10 @@ The full coverage report can be found [here](https://app.codecov.io/gh/simkatti/
 Unit tests are implimented separately for each module.  The key generation module contains the most methods and is the core of the program’s functionality, so most of the tests are focusing on that module. The key generation module consists methods of:
 - generating small primes: returns a list of 1229 first small primes
 - generating a random number: returns a random 1024-bit odd number
-- generating a random prime: returns a random 1024-bit prime number if it passes the primality check
+- generating a random prime: returns a random 1024-bit prime number if it passes the primality check. These are `p` and `q` values
 - check if a number is a prime: uses the generated small prime list to check if a given number is divisible by any small primes. If not, the Miller-Rabin primality test is called. Returns True if the number is likely prime, otherwise False
 - miller-rabin: factors out the powers of two from the large prime candidate and then repeats modular exponentiation until certain requirement is met. Returns True if prime candidate is likely to be a prime
 - choosing public exponent `e`: returns commonly used value 65537 if it passes the requirements and if not, finds a new value for `e`
-- modular inverse: returns value for `d` by solvin equation `d ≡ e**-1 mod t`
 
 #### Generating small prime numbers
 Key generation module has a method that generates 1229 first prime numbers. The method is tested by comparing its output to a list of the first 1000 known primes. The test passes if the first 1000 primes match. The generated list is also tested for primality using a separate method that checks each number by using the small prime list and the Miller-Rabin test. Since all tests pass, the method generates primes correctly.
