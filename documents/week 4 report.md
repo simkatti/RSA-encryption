@@ -24,7 +24,6 @@ Questions:
 1. How much of the code should be documented? It all seems obvious to me so I am not sure how much should be commented.
 2. I don't really know what to with the program since the tests and program is done so is there any way I could improve it more apart from documentation? (I am aiming for grade 5)
 3. Must the instruction document be a separate document or is it fine if the instructions are on the readme.md?
-4. Can i use math librarys gcd function or should I impliment it? 
 
 ### What I will do next week
 Write documents, peer review and fix program if needed. 
