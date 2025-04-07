@@ -25,7 +25,5 @@ class Encryptor:
         n = public_key[0]
         e = public_key[1]
         encrypted = pow(self.m, e, n)
-        # print(len(encrypted.to_bytes(256, byteorder="big")))
-        # print(encrypted.bit_length())
 
         return encrypted, public_key, private_key

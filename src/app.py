@@ -90,34 +90,33 @@ class GUI:
             self.output.config(state=tk.DISABLED)
             self.output.place(relx=0.5, rely=0.43, anchor="center")
 
-            self.encrypt_button = tk.Button(
+            self.generate_keys_button = tk.Button(
                 self.root,
-                text="ENCRYPT",
-                command=self.encrypt,
+                text="GENERATE KEYS",
+                command=self.generate_keys,
                 bg=BACKGROUND_COLOR,
                 fg=FONT_COLOR,
                 font=(FONT, 14),
             )
-            self.encrypt_button.place(relx=0.5, rely=0.85, anchor="center")
-
-    def encrypt(self):
-        self.encrypt_button.place_forget()
+            self.generate_keys_button.place(relx=0.5, rely=0.85, anchor="center")
+    
+    def generate_keys(self):
+        self.generate_keys_button.place_forget()
         self.output.place_forget()
         self.encrypted_message, self.public_key, self.private_key = encrypt_message(self.message)
-        self.root.after(0, self.show_encrypted)
-
-    def show_encrypted(self):
-        self.title.config(text="Encrypted Message:", fg=FONT_COLOR)
-        self.title.place(relx=0.5, rely=0.1, anchor="center")
-
-        self.subtitle.config(text="Public Key (n, e):", fg=FONT_COLOR)
-        self.subtitle.place(relx=0.5,rely=0.4, anchor="center")
         
+        with open('src/keys.txt', mode='w') as file:
+            file.write(f'{self.public_key[0]}, {self.public_key[1]} \n \n {self.private_key[0]}, {self.private_key[1]}')
+
+        self.title.config(text="Public Key (n, e):", fg=FONT_COLOR)
+        self.title.place(relx=0.5, rely=0.125, anchor="center")
+
+        self.subtitle.config(text="Private Key (n, d):", fg=FONT_COLOR)
+        self.subtitle.place(relx=0.5,rely=0.4, anchor="center")       
         self.output.place(relx=0.5, rely=0.25, anchor="center")
-        
         self.output.config(state=tk.NORMAL)
         self.output.delete("1.0", tk.END)
-        self.output.insert("1.0", self.encrypted_message)
+        self.output.insert("1.0", f"{self.public_key[0]}, {self.public_key[1]}")
         self.output.config(state=tk.DISABLED)
         
         self.show_key = tk.Text(
@@ -131,41 +130,148 @@ class GUI:
             highlightthickness=0,
             font=(FONT, 14),
         )
-        self.show_key.insert("1.0", f"({self.public_key[0]}, {self.public_key[1]})")
+        self.show_key.insert("1.0", f'{self.private_key[0]}, {self.private_key[1]}')
         self.show_key.config(state=tk.DISABLED)
-        self.show_key.place(relx=0.5, rely=0.62, anchor="center")
+        self.show_key.place(relx=0.5, rely=0.61, anchor="center")
+        
+        self.encrypt_button = tk.Button(
+                self.root,
+                text="ENCRYPT MESSAGE",
+                command=self.public_key_insertion,
+                bg=BACKGROUND_COLOR,
+                fg=FONT_COLOR,
+                font=(FONT, 14),
+            )
+        
+        self.encrypt_button.place(relx=0.5, rely=0.85, anchor="center")
+        
+    def public_key_insertion(self):
+        self.title.config(text="Your message: ", fg=FONT_COLOR)
+        self.title.place(relx=0.5, rely=0.125, anchor="center")
+        self.subtitle.config(text="Insert public key in form of n, e:", fg=FONT_COLOR)
+        self.subtitle.place(relx=0.5,rely=0.4, anchor="center") 
+        self.encrypt_button.place_forget()
+        self.output.place_forget()
+        
+        self.output.place(relx=0.5, rely=0.25, anchor="center")
+        
+        self.output.config(state=tk.NORMAL)
+        self.output.delete("1.0", tk.END)
+        self.output.insert("1.0", self.message)
+        self.output.config(state=tk.DISABLED)
+        
+        self.show_key.place_forget()
+        
+        self.public_key_input = tk.Text(
+            root,
+            width=85,
+            height=13,
+            bg=BACKGROUND_COLOR,
+            fg=FONT_COLOR,
+            insertbackground=FONT_COLOR,
+            bd=2,
+            highlightthickness=2,
+            font=(FONT, 14),
+        )
 
-        self.decrypt_button = tk.Button(
+        self.public_key_input.place(relx=0.5, rely=0.6, anchor="center")   
+        
+        self.encryption_button = tk.Button(
+                self.root,
+                text="ENCRYPT MESSAGE",
+                command=self.show_encrypted,
+                bg=BACKGROUND_COLOR,
+                fg=FONT_COLOR,
+                font=(FONT, 14),
+            )
+        
+        self.encryption_button.place(relx=0.5, rely=0.85, anchor="center")   
+
+
+    def show_encrypted(self):
+        self.encryption_button.place_forget()        
+        self.public_key_input.place_forget()
+        self.output.place_forget()       
+        self.subtitle.place_forget()
+        
+        self.title.config(text="Encrypted Message:", fg=FONT_COLOR)
+        self.title.place(relx=0.5, rely=0.29, anchor="center")
+        
+        self.output.place(relx=0.5, rely=0.43, anchor="center")
+        
+        self.output.config(state=tk.NORMAL)
+        self.output.delete("1.0", tk.END)
+        self.output.insert("1.0", self.encrypted_message)
+        self.output.config(state=tk.DISABLED)
+
+        self.decryption_button = tk.Button(
             self.root,
-            text="DECRYPT",
-            command=self.decrypt,
+            text="DECRYPT MESSAGE",
+            command=self.private_key_insertion,
             bg=BACKGROUND_COLOR,
             fg=FONT_COLOR,
             font=(FONT, 14),
         )
-        self.decrypt_button.place(relx=0.5, rely=0.85, anchor="center")
+        self.decryption_button.place(relx=0.5, rely=0.85, anchor="center")
+        
+    def private_key_insertion(self):
+        self.decryption_button.place_forget()
+        self.output.place_forget()
+                
+        self.title.config(text="Encrypted message: ", fg=FONT_COLOR)
+        self.title.place(relx=0.5, rely=0.125, anchor="center")
+        
+        self.subtitle.config(text="Insert private key in form of n, d:", fg=FONT_COLOR)
+        self.subtitle.place(relx=0.5,rely=0.4, anchor="center") 
 
-    def decrypt(self):
-        self.decrypt_button.place_forget()
-        self.decrypted_message = decrypt_message(self.encrypted_message, self.private_key)
-        self.root.after(0, self.show_decrypted)
+        self.output.place(relx=0.5, rely=0.25, anchor="center")
+        
+        self.output.config(state=tk.NORMAL)
+        self.output.delete("1.0", tk.END)
+        self.output.insert("1.0", self.encrypted_message)
+        self.output.config(state=tk.DISABLED)
+        
+        self.private_key_input = tk.Text(
+            root,
+            width=85,
+            height=13,
+            bg=BACKGROUND_COLOR,
+            fg=FONT_COLOR,
+            insertbackground=FONT_COLOR,
+            bd=2,
+            highlightthickness=2,
+            font=(FONT, 14),
+        )
+
+        self.private_key_input.place(relx=0.5, rely=0.6, anchor="center")         
+        
+        self.decrypt_button = tk.Button(
+                self.root,
+                text="DECRYPT MESSAGE",
+                command=self.show_decrypted,
+                bg=BACKGROUND_COLOR,
+                fg=FONT_COLOR,
+                font=(FONT, 14),
+            )
+        
+        self.decrypt_button.place(relx=0.5, rely=0.85, anchor="center")     
 
     def show_decrypted(self):
+        self.decrypt_button.place_forget()
+        self.private_key_input.place_forget()
+        self.subtitle.place_forget()
+        self.output.place_forget()
+        
+        self.decrypted_message = decrypt_message(self.encrypted_message, self.private_key)
+        
         self.title.config(text="Decrypted Message:")
-        self.title.place(relx=0.5, rely=0.1, anchor="center")    
-        
-        self.subtitle.config(text="Private Key (n, d):", fg=FONT_COLOR)
-        self.subtitle.place(relx=0.5,rely=0.4, anchor="center")           
-        
+        self.title.place(relx=0.5, rely=0.29, anchor="center") 
+           
+        self.output.place(relx=0.5, rely=0.43, anchor="center")
         self.output.config(state=tk.NORMAL)
         self.output.delete("1.0", tk.END)
         self.output.insert("1.0", self.decrypted_message)
         self.output.config(state=tk.DISABLED)
-        self.show_key.config(state=tk.NORMAL)
-        self.show_key.delete("1.0", tk.END)
-        self.show_key.insert("1.0", f"({self.private_key[0]}, {self.private_key[1]})")
-        self.show_key.config(state=tk.DISABLED)
-
 
         self.reset_button = tk.Button(
             self.root,
@@ -185,14 +291,12 @@ class GUI:
         self.title.config(text="Write your message:")
         self.message_input.delete("1.0", tk.END)
 
-        self.title.place(relx=0.5, rely=0.3, anchor="center")
+        self.title.place(relx=0.5, rely=0.29, anchor="center")
         self.message_input.place(relx=0.5, rely=0.4, anchor="center")
         self.ok_button.place(relx=0.5, rely=0.85, anchor="center")
 
 
-"""
-dummy functions as placeholders
-"""
+
 e = Encryptor()
 d = Decryptor()
 

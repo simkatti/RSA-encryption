@@ -40,3 +40,7 @@ class TestEncryption(unittest.TestCase):
         self.assertEqual(expected_result, encypted)
         self.assertEqual(public_key, (n,e))
         self.assertEqual(private_key, (n,d))
+        
+    def test_encrypted_msg_size(self):
+        encrypted_msg, _, _ = self.e.perform_encryption(self.message)
+        self.assertAlmostEqual(encrypted_msg.bit_length(), 2048,delta=2)

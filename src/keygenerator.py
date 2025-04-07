@@ -8,7 +8,6 @@ generated list of small primes first (sieve of Eratosthenes algortihm)
 and then with rabin miller. Output is public- and private key
 """
 
-
 class KeyGenerator:
 
     def __init__(self):

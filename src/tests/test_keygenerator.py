@@ -1,5 +1,4 @@
 import unittest
-import random
 from keygenerator import KeyGenerator
 from unittest import mock
 from math import gcd

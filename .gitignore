@@ -9,3 +9,4 @@ htmlcov/
 log.html
 output.xml
 report.html
+*.txt
