@@ -113,20 +113,5 @@ class KeyGenerator:
             if gcd(e, t) == 1:
                 return e
 
-    # def extended_euclidean(self, a, b):  # de ≡ 1 (mod ϕ(n))
-    #     if a == 0:
-    #         return b, 0, 1
-    #     greatest_common_divisor, x1, y1 = self.extended_euclidean(b % a, a)
-    #     x = y1 - (b // a) * x1
-    #     y = x1
-    #     return greatest_common_divisor, x, y
-
-    # def modular_inverse(self, e, t):
-    #     greatest_common_divisor, x, y = self.extended_euclidean(e, t)
-    #     if greatest_common_divisor == 1:
-    #         return x % t
-    #     return None
-
-
 if __name__ == "__main__": #pragma: no cover
     k = KeyGenerator()
