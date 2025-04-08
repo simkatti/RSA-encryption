@@ -2,7 +2,7 @@
 #https://en.wikipedia.org/wiki/Optimal_asymmetric_encryption_padding
 #hash function SHA-256 for 2048 RSA
 
-from hashlib import sha256 #pragma: no cover
+from hashlib import sha256 
 import random
 
 class Padder:
