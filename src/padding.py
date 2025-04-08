@@ -1,8 +1,8 @@
 """Not sure if I will impliment this"""
 #https://en.wikipedia.org/wiki/Optimal_asymmetric_encryption_padding
 #hash function SHA-256 for 2048 RSA
-#pragma: no cover
-from hashlib import sha256
+
+from hashlib import sha256 #pragma: no cover
 import random
 
 class Padder:
