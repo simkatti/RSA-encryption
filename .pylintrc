@@ -6,7 +6,7 @@ ignore=tests,
         app.py,
 
 disable= W0105,
-        W0612 
+        W0612,R0903
 
 [MESSAGE CONTROL]
 
@@ -23,6 +23,7 @@ disable=raw-checker-failed,
         missing-class-docstring
 
 [FORMAT]
+max-line-length=120
 
 [REFACTORING]
 
