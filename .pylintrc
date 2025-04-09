@@ -4,7 +4,6 @@ init-hook='import sys; sys.path.append("src")'
 
 ignore=tests,
         app.py,
-        padding.py
 
 disable= W0105,
         W0612 
