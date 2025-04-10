@@ -1,19 +1,7 @@
-<!-- Testausdokumentin pitääs sisältää seuraavat:
-
-Yksikkötestauksen kattavuusraportti.
-Mitä on testattu, miten tämä tehtiin?
-Minkälaisilla syötteillä testaus tehtiin?
-Miten testit voidaan toistaa?
-Ohjelman toiminnan mahdollisen empiirisen testauksen tulosten esittäminen graafisessa muodossa. (Mikäli sopii aiheeseen)
-Ei siis riitä todeta, että testaus on tehty käyttäen automaattisia yksikkötestejä, vaan tarvitaan konkreettista tietoa testeistä, kuten:
-Testattu, että tekoäly osaa tehdä oikeat siirrot tilanteessa, jossa on varma 4 siirron voitto. Todettu, että siirroille palautuu voittoarvo 100000.
-Testattu 10 kertaan satunnaisesti valituilla lähtö- ja maalipisteillä, että JPS löytää saman pituisen reitin kuin Dijkstran algoritmi.
-Kummallakin algoritmilla on pakattu 8 MB tekstitiedosto, purettu se ja tarkastettu, että tuloksena on täsmälleen alkuperäinen tiedosto. -->
-
 # Test documentation
 
 ## Coverage report 
-The program has three key modules: key generation, encryption and decryption. The code coverage for the key generation module is 98.96 % and 100 % for both encryption and decryption modules. There is one [line](https://app.codecov.io/gh/simkatti/RSA-encryption/blob/main/src%2Fkeygenerator.py#L113) in the key generation module that only has partial coverage. This happens because the statement on that line is always True, preventing the code from jumping back to the top of the `while True` loop. However, this does not affect the overall functionality of the algorithm.
+The program has four key modules: key generation, encryption, decryption and padding. The code coverage for the key generation module is 98.96 % and 100 % for the rest. There is one [line](https://app.codecov.io/gh/simkatti/RSA-encryption/blob/main/src%2Fkeygenerator.py#L113) in the key generation module that only has partial coverage. This happens because the statement on that line is always True, preventing the code from jumping back to the top of the `while True` loop. However, this does not affect the overall functionality of the algorithm.
 
 The full coverage report can be found [here](https://app.codecov.io/gh/simkatti/RSA-encryption/tree/main/src)
 
@@ -61,13 +49,30 @@ The modulus `n` size is tested to be 2048 +/- 1 bits to make sure it is the RSA 
         
 #### Encryption and decryption
 Encryption and decryption are tested with two inputs:
-- `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in` - a 256-character string (maximum allowed message length)
+- `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris` - a 190-character string (maximum allowed message length)
 - `!?=)&%€äöå023546` - a 16-character string (to test shorter messages)
-Messages outside the 1-256 character range are not tested because the GUI prevents users from entering empty or too long messages.
+Messages outside the 1-90 character range are not tested because the GUI prevents users from entering empty or too long messages.
 
 The encryption process consists of converting the message into an integer and applying modular exponentation: `message**e % n`. The test converts the input string into a integer and check if the encryption method returns the same integer. Modular exponentation is tested using a mock which returns pre-generated public and private keys. The tests pass if the method returns same value for encrypted message ans the expected value computed by the test.
 
 Decryption is similar to encryption but in reverse: first the modular exponentation is performed and then the result is turned back to a string. The test takes an encrypted message, public and private key from encryptor module and performs decryption. The tests asserts that the output of the decryption module matches the original test input string. 
+
+#### Padding
+The padding module impliments the Optimal Asymmteric Encryption Padding using the SHA-256 hash function. It is tested with:
+- End-to-end padding and un padding test.
+  This is tested with two inputs: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris` and `!?=)&%€äöå023546`. The tests pass if the result of padding followed by unpadding matches the original message in bytes)
+- Message length test.
+  Testing that the message length doesn't exceed the maximum length allowed by 2048-bit n modulus. The allowed length for the message is `k - 2 * 32 - 2` where `k` is the length of modulun n in bytes. The test ensures that the actual message length in bytes is less than or equal to this maximum.
+- Invalid mask generation length.
+  Testing that the mask generation function raises Value Error when the given length is too long. Mask generation function gets seed and desired length as parameters and checks if the length is too long before proceeding. The test assures that if the length exceed the maximum the function raises an Value Error. The test input is `l = 137438953475` which I calculated to exceed the limit of maximum length `(32 << 32)`.
+- XOR returns correct values
+   The XOR method is tested with known inputs to make sure it returns correct values. The method is tested with inputs: ` a= b'\x01\x00', b= b'\x00\x10'` and their expected value `272` is turned into bytes as the method returns the result in bytes. The test passes if the expected value matches the returned result.
+- Padding sting has the correct length
+  The padding string should have the length `k - mLen - 2 * hLen`. The test makes sure that the method return a padding string of the correct length based on a known input message, modulus `n` and `hLen=32`
+- Incorrect padding
+  If the encoded padded message is not padded correctly the method should return None. This is tested with giving the function a test input where the first byte is not 0x00 as it should be in correclty padded encoded message. The test passes if the method returns None
+
+The padding module is also tested indirectly though encryption and decryption tests since both modules are depended on the padding module. 
 
 ## Integration testing
 The integration is tested with same outputs as the encryption and decryption:
@@ -75,7 +80,7 @@ The integration is tested with same outputs as the encryption and decryption:
 - `!?=)&%€äöå023546`
 - `Hello World!`
 
-The tests call the encryptiong module with a test input and it returns the encrypted message, public key and private key. The decryption module is then called using the encrypted message and private key. The tests assert that the decrypted output matches the test input. Although the key generation module is not explicitly called in the integration tests, the encryption module relies on it. This ensures that the integration between modules work.
+The tests call the encryptiong module with a test input and it returns the encrypted message, public key and private key. The decryption module is then called using the encrypted message and private key. The tests assert that the decrypted output matches the test input. Although the key generation or padding module is not explicitly called in the integration tests, the encryption module relies on key generation and both encryption and decryption use padding module. This ensures that the integration between modules work.
 
 
 ## How the tests can be repeated
