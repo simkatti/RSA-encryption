@@ -31,9 +31,9 @@ class TestPadding(unittest.TestCase):
         mLen = self.k - 2 * 32 - 2 
         
         self.p.perform_padding(self.n, self.message)
+        
         self.assertGreaterEqual(mLen, self.p.m_len)
-        
-        
+
     def test_mgf_with_invalid_length(self):
         l= 137438953475
         seed = b'\x00' * 32
