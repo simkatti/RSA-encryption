@@ -363,6 +363,3 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = GUI(root)
     root.mainloop()
-
-# 256 char message for error testing:
-# Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris

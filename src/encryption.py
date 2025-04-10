@@ -1,11 +1,9 @@
 from keygenerator import KeyGenerator
 from padding import Padder
 
-
 """ascii message is transformed into large integer
 which is then encrypted with modular exponentiation
 and returned back to the GUI"""
-
 
 class Encryptor:
     def __init__(self):

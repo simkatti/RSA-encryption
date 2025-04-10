@@ -1,8 +1,7 @@
-"""encrypted message transformed back to ASCII
-with private key"""
-
 from padding import Padder
 
+"""encrypted message transformed back to ASCII
+with private key"""
 
 class Decryptor:
     def __init__(self):
