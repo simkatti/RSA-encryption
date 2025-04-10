@@ -6,7 +6,7 @@ The program has four key modules: key generation, encryption, decryption and pad
 The full coverage report can be found [here](https://app.codecov.io/gh/simkatti/RSA-encryption/tree/main/src)
 
 ## Unit testing
-Unit tests are implimented separately for each module.  The key generation module contains the most methods and is the core of the program’s functionality, so most of the tests are focusing on that module. The key generation module consists methods of:
+Unit tests are implemented separately for each module. The key generation module contains the most methods and is the core of the program’s functionality, so most of the tests are focusing on that module. The key generation module consists of these methods:
 - generating small primes: returns a list of 1229 first small primes
 - generating a random number: returns a random 1024-bit odd number
 - generating a random prime: returns a random 1024-bit prime number if it passes the primality check. These are `p` and `q` values
