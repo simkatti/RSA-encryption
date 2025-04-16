@@ -45,7 +45,7 @@ It starts by calling padding module to pad the message. It then transforms the p
 The decryption module works similarly to encryption but in reverse. First, modular exponentiation is performed to decrypt the message. Then, the resulting integer is sent to the padding module in byte format to be unpadded. The returned byte string is decoded into ascii string and the decrypted message is returned back to the GUI for display to the user.
 
 ### Padding
-Padding was a last minute feature I added. It is implimented using Optimal Asymmetric Encryption Padding with the SHA-256 hash function. The padding module works by taking the plain user input as a the message to be padded. The key scomponents include the mask generation function, the hash function and the xor-operation. The mask generation function works by concatenating hashed return values into a byte sring of given length [[4]](https://en.m.wikipedia.org/wiki/Mask_generation_function).
+Padding was a last minute feature I added. It is implemented using Optimal Asymmetric Encryption Padding with the SHA-256 hash function. The padding module works by taking the plain user input as a the message to be padded. The key scomponents include the mask generation function, the hash function and the xor-operation. The mask generation function works by concatenating hashed return values into a byte sring of given length [[4]](https://en.m.wikipedia.org/wiki/Mask_generation_function).
 
 The padding steps [[5]](https://en.m.wikipedia.org/wiki/Optimal_asymmetric_encryption_padding):
 1. Hashing L-label: an empty byte string is hashed using the SHA-256 hash function
