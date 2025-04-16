@@ -58,7 +58,7 @@ The encryption process consists of converting the message into an integer and ap
 Decryption is similar to encryption but in reverse: first the modular exponentation is performed and then the result is turned back to a string. The test takes an encrypted message, public and private key from encryptor module and performs decryption. The tests asserts that the output of the decryption module matches the original test input string. 
 
 #### Padding
-The padding module impliments the Optimal Asymmteric Encryption Padding using the SHA-256 hash function. It is tested with:
+The padding module implements the Optimal Asymmteric Encryption Padding using the SHA-256 hash function. It is tested with:
 - End-to-end padding and un padding test.
   This is tested with two inputs: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris` and `!?=)&%€äöå023546`. The tests pass if the result of padding followed by unpadding matches the original message in bytes)
 - Message length test.
