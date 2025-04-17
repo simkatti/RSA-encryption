@@ -13,7 +13,7 @@ None
 None
 
 ### What challanges I faced this week
-Didn't get peer reviewed :(
+None
 
 ### What I will do next week
 Finish the project and do changes based on the peer review if I get one
