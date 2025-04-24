@@ -1,8 +1,7 @@
 import unittest
-from keygenerator import KeyGenerator
 from unittest import mock
 from math import gcd
-
+from keygenerator import KeyGenerator
 
 class TestKeyGenerator(unittest.TestCase):
 
@@ -10,12 +9,12 @@ class TestKeyGenerator(unittest.TestCase):
         self.kg = KeyGenerator()
 
         self.small_primes = []
-        with open('src/tests/known small primes.txt') as file:
+        with open('src/tests/known small primes.txt', encoding='utf-8') as file:
             for line in file:
                 self.small_primes.append(int(line.strip('\n')))
 
         self.big_primes = []
-        with open('src/tests/known large primes.txt') as file:
+        with open('src/tests/known large primes.txt', encoding='utf-8') as file:
             for line in file:
                 self.big_primes.append(int(line.strip('\n')))
 

@@ -1,7 +1,10 @@
 from padding import Padder
 
-"""encrypted message transformed back to ASCII
-with private key"""
+"""
+Encrypted message transformed back to ASCII with private key. 
+Encrypted message is decrypted calculating c**d mod n and then the padding is removed
+"""
+
 
 class Decryptor:
     def __init__(self):

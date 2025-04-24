@@ -8,7 +8,11 @@ class TestIntegration:
     def setUp(self):
         self.e = Encryptor()
         self.d = Decryptor()
-        self.long_msg = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'
+        self.long_msg = (
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor "
+            "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis "
+            "nostrud exercitation ullamco laboris"
+        )
         self.symbols = '!?=)&%€äöå023546'
         self.msg = 'Hello World!'
 

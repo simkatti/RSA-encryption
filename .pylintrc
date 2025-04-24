@@ -2,11 +2,10 @@
 init-hook='import sys; sys.path.append("src")'
 
 
-ignore=tests,
-        app.py,
+ignore=app.py,
 
 disable= W0105,
-        W0612,R0903
+        W0612,R0903,C0103,R0902,R0801
 
 [MESSAGE CONTROL]
 

@@ -2,11 +2,10 @@ import random
 from math import gcd
 
 """
-Generates large random 1024-bit number which is then passed to
-function to test if its prime. Primality is tested with 
-generated list of small primes first (sieve of Eratosthenes algortihm)
-and then with rabin miller. Output is public- and private key
+Generates and outputs public- and private key.
+
 """
+
 
 class KeyGenerator:
 
@@ -19,6 +18,7 @@ class KeyGenerator:
         self.private_key = None
 
     def generate_keys(self):
+        """Generates the key components"""
         p = self.generate_random_prime()
         q = self.generate_random_prime()
 
@@ -40,20 +40,25 @@ class KeyGenerator:
     def get_private_key(self):
         return self.private_key
 
-    def generate_random_prime(self):
-        while True:
-            prime = self.generate_random_number()
-            if self.check_if_prime(prime):
-                return prime
-
     def generate_random_number(self):
+        """Generates random 1024-bit number"""
         large_number = random.getrandbits(1024)
         large_number |= 1 << 1023
         if large_number % 2 == 0:
             large_number += 1
         return large_number
 
+    def generate_random_prime(self):
+        """Checks if randomly generated number is prime"""
+        while True:
+            prime = self.generate_random_number()
+            if self.check_if_prime(prime):
+                return prime
+
     def check_if_prime(self, number):
+        """The primality is tested first with small prime list
+        and then with rabin millers algorithm. 
+        Returns true if number likely to be prime"""
         if number in self.small_primes:
             return True
         for prime in self.small_primes:
@@ -66,9 +71,7 @@ class KeyGenerator:
         return True
 
     def generate_small_primes(self):
-        """
-        generates 1229 primes
-        """
+        """Generates 1229 first primes with Sieve of Eratosthenes algorithm"""
         number_list = list(range(0, 10000))
         number_list[0] = False
         number_list[1] = False
@@ -81,6 +84,7 @@ class KeyGenerator:
         return small_primes
 
     def miller_rabin(self, n):
+        """Miller-Rabins test for primality. Returns true if modular exponentation meets requirements k times"""
         s, d = self.factor_out_powers_of_two(n - 1)
         for _ in range(100):
             a = random.randint(2, n - 2)
@@ -96,6 +100,9 @@ class KeyGenerator:
         return True
 
     def factor_out_powers_of_two(self, n):
+        """Outputs values s and n. 
+        s is how many times the number 2 is factor of n 
+        and d is n with all factors of 2 removed  """
         s = 0
         d = n
         while d % 2 == 0:
@@ -104,6 +111,7 @@ class KeyGenerator:
         return s, d
 
     def choose_e(self, t):
+        """Primarily uses the common value for e if requirements are met otherwise e is computed """
         e = 65537
         if gcd(e, t) == 1:
             return e

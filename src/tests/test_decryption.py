@@ -7,7 +7,11 @@ class TestDecryption(unittest.TestCase):
     def setUp(self):
         self.d = Decryptor()
         self.e = Encryptor()
-        self.message = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris'
+        self.message = (
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor "
+            "incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis "
+            "nostrud exercitation ullamco laboris"
+        )
         self.symbols = '!?=)&%€äöå023546'
 
         msg_in_bytes = self.message.encode('utf-8')

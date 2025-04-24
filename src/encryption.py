@@ -1,9 +1,11 @@
 from keygenerator import KeyGenerator
 from padding import Padder
 
-"""ascii message is transformed into large integer
-which is then encrypted with modular exponentiation
-and returned back to the GUI"""
+"""
+Ascii message is padded, transformed into large integer, encrypted with modular exponentiation
+and returned back to the GUI
+"""
+
 
 class Encryptor:
     def __init__(self):
@@ -12,9 +14,11 @@ class Encryptor:
         self.p = Padder()
 
     def message_to_int(self, message):
+        """Transform message to integer"""
         return int.from_bytes(message, "big")
 
     def perform_encryption(self, message):
+        """Gets keys from key generator, adds padding to the message and encrypts it calculating m**e mod n"""
         self.kg.generate_keys()
         public_key = self.kg.get_public_key()
         private_key = self.kg.get_private_key()
