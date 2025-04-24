@@ -14,7 +14,7 @@ class Padder:
 
     def perform_padding(self, n, m):
         """Steps of padding a string"""
-        self.k = (n.bit_length() + 7) // 8 
+        self.k = (n.bit_length() + 7) // 8
         self.m_len = len(m.encode('utf-8'))
         ps = self.generate_padding_string(self.k, self.m_len, self.lhash_len)
         datablock = self.lhash + ps + b'\x01' + m.encode('utf-8')
