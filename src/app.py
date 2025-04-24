@@ -20,7 +20,7 @@ class GUI:
 
         self.title = tk.Label(
             root,
-            text="Write your message (max 190 characters):",
+            text="Write your message (max 190 bytes):",
             bg=BACKGROUND_COLOR,
             fg=FONT_COLOR,
             font=(FONT, 15),
@@ -63,10 +63,11 @@ class GUI:
         """
         error handling for the message
         """
-        if len(self.message) > 190 or len(self.message) < 1:
+        
+        if len(self.message.encode('utf-8')) > 190 or len(self.message) < 1:
             self.title.place_forget()
             self.title.config(
-                text=f"Message should be between 1 - 190 characters. \n Your message is {len(self.message)} characters.", fg="red")
+                text=f"Message should be between maximum of 190 bytes. \n Your message is {len(self.message.encode('utf-8'))} bytes.", fg="red")
             self.title.place(relx=0.5, rely=0.29, anchor="center")
         else:
             self.title.place_forget()
@@ -338,7 +339,7 @@ class GUI:
         self.show_key.place_forget()
         self.reset_button.place_forget()
         self.subtitle.place_forget()
-        self.title.config(text="Write your message (max 190 characters):")
+        self.title.config(text="Write your message (max 190 bytes):")
         self.message_input.delete("1.0", tk.END)
 
         self.title.place(relx=0.5, rely=0.29, anchor="center")

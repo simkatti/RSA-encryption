@@ -15,9 +15,8 @@ class Decryptor:
         n = private_key[0]
         d = private_key[1]
         m = pow(c, d, n)
-        k = len(n.to_bytes((n.bit_length() + 7) // 8, "big"))
-        msg_bytes = m.to_bytes((m.bit_length() + 7) //
-                               8, "big").rjust(k, b'\x00')
+        k = (n.bit_length() + 7) // 8
+        msg_bytes = m.to_bytes(k, 'big').rjust(k, b'\x00')
         unpadded_msg = self.p.reverse_padding(n, msg_bytes)
 
         decrypted = unpadded_msg.decode('utf-8')
