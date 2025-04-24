@@ -1,13 +1,13 @@
 ## Week 6 report
 
 ### Hours used this week
-1
+5
 
 ### What I've done this week
-Updated documents
+Polished documents, cleaned code and added docstrings.
 
 ### How the project has developed this week
-None 
+Just finishing it off..
 
 ### What I learnt this week
 None
@@ -16,4 +16,4 @@ None
 None
 
 ### What I will do next week
-Finish the project and do changes based on the peer review if I get one
+Fixes based on second peer review
