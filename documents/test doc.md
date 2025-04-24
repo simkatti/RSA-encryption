@@ -11,38 +11,38 @@ Unit tests are implemented separately for each module. The key generation module
 - generating a random number: returns a random 1024-bit odd number
 - generating a random prime: returns a random 1024-bit prime number if it passes the primality check. These are `p` and `q` values
 - check if a number is a prime: uses the generated small prime list to check if a given number is divisible by any small primes. If not, the Miller-Rabin primality test is called. Returns True if the number is likely prime, otherwise False
-- miller-rabin: factors out the powers of two from the large prime candidate and then repeats modular exponentiation until certain requirement is met. Returns True if prime candidate is likely to be a prime
+- miller-rabin: factors out the powers of two from the large prime candidate and then repeats modular exponentiation until certain requirements are met. Returns True if prime candidate is likely to be a prime
 - choosing public exponent `e`: returns commonly used value 65537 if it passes the requirements and if not, finds a new value for `e`
 
 #### Generating small prime numbers
-Key generation module has a method that generates 1229 first prime numbers. The method is tested by comparing its output to a list of the first 1000 known primes. The test passes if the first 1000 primes match. The 1000 known primes are taken from [here](https://t5k.org/lists/small/index.html) and can be found in a separate text file in the tests folder. 
+The key generation module has a method that generates 1229 first prime numbers. The method is tested by comparing its output to a list of the first 1000 known primes. The test passes if the first 1000 primes match. The 1000 known primes are taken from [here](https://t5k.org/lists/small/index.html) and can be found in a separate text file in the tests folder. 
 
-The generated list is tje tested for primality using a separate method that checks each number by using the small prime list and the Miller-Rabin test. Since all tests pass, the method generates primes correctly.
+The generated list is tested for primality using a separate method that checks each number by using the small prime list and the Miller-Rabin test. Since all tests pass, the method generates primes correctly.
 
 #### Generating random 1024-bit value
-In 2048-bit RSA the modulus `n` should be 2048-bits. This means that `p` and `q` values should both be around 1024-bits. This is tested by checking that the method generating a random number returns a value of exactly 1024 bits in size. The method also ensures that if the generated number is even, 1 is added to it making it odd.  This is tested with a mock where the input`2**1023` is passed to the function and expected output is `2**1023 + 1`.
+In 2048-bit RSA the modulus `n` should be 2048-bits. This means that `p` and `q` values should both be around 1024-bits. This is tested by checking that the method generating a random number returns a value of exactly 1024 bits in size. The method also ensures that if the generated number is even, 1 is added to it making it odd.  This is tested with a mock where the input`2**1023` is passed to the function and the expected output is `2**1023 + 1`.
 
 #### Checking input for primality
 This method combines two techniques for primality testing: checking divisibility with the small prime list values and performin Miller-Rabin test. 
 
 Test inputs:
-- a list of 20 knwon large prime numbers each between size 500-2000 bits (150-600 digits). The primes are taken from [here](https://t5k.org/curios/index.php?start=143&stop=700).
+- a list of 20 known large prime numbers each between size 500-2000 bits (150-600 digits). The primes are taken from [here](https://t5k.org/curios/index.php?start=143&stop=700).
 - a list of composite numbers which are multiples of the above prime list
 
 The tests pass if method returns True for all primes and false for all composites
 
 #### Miller Rabins test for primality
-This method is tested with same inputs as the method above. Tests are passed if return value is asserted True for primes and False for composites.
+This method is tested with same inputs as the method above. Tests are passed if the return value is asserted True for primes and False for composites.
 
 #### Choosing exponent e
-The e is chosen so that `e < n ` and that `e` and `t` are coprime. The method is tested with two input: 17 and 131074. With 17 the method returns the common value 65537 because it meets the requirements. With 131074 the method searches another value for e since it doens't meet the requirements for the common value. The goal of this test is to test if the method finds another value for `e` if the requirements don't meet.
+The e is chosen so that `e < n ` and that `e` and `t` are coprime. The method is tested with two inputs: 17 and 131074. With 17 the method returns the common value 65537 because it meets the requirements. With 131074 the method searches another value for e since it doens't meet the requirements for the common value. The goal of this test is to test if the method finds another value for `e` if the requirements don't meet.
 
 #### Generating random prime
 This method is tested using mock by giving the method return value of 1049 which is a known prime number. The method checks if its a prime and returns it. This test checks if a prime number is returned.
 
 #### Key values
 The key values are tested with small input values that I calculated: `p = 3709 ,q = 7043, t = (p-1)*(q-1)//gcd(p-1,q-1), e = 65537, d = e**-1 * % t`. 
-The test asserts correct with expected values. Other input values are large prime numbers generated by the program. The test is mocked to generate given `p` and `q` values. It's also tested that if the `p == q`. the method finds another value for `q`. This is tested with mocking the the `p` and `q` values to be 3709,3709,5861 and tested that the return value isn't a multiple of the same numbers.
+The test asserts it's correct with the expected values. Other input values are large prime numbers generated by the program. The test is mocked to generate given `p` and `q` values. It's also tested that if `p == q`. the method finds another value for `q`. This is tested with mocking the the `p` and `q` values to be 3709,3709,5861 and tested that the return value isn't a multiple of the same numbers.
 
 #### Key size
 The modulus `n` size is tested to be 2048 +/- 1 bits to make sure it is the RSA 2048-bit standard. 
@@ -53,24 +53,24 @@ Encryption and decryption are tested with two inputs:
 - `!?=)&%€äöå023546` - a 16-character string (to test shorter messages)
 Messages outside the 1-90 character range are not tested because the GUI prevents users from entering empty or too long messages.
 
-The encryption process consists of converting the message into an integer and applying modular exponentation: `message**e % n`. The test converts the input string into a integer and check if the encryption method returns the same integer. Modular exponentation is tested using a mock which returns pre-generated public and private keys. The tests pass if the method returns same value for encrypted message ans the expected value computed by the test.
+The encryption process consists of converting the message into an integer and applying modular exponentation: `message**e % n`. The test converts the input string into a integer and check if the encryption method returns the same integer. Modular exponentation is tested using a mock which returns pre-generated public and private keys. The tests pass if the method returns the same value for the encrypted message and the expected value computed by the test.
 
-Decryption is similar to encryption but in reverse: first the modular exponentation is performed and then the result is turned back to a string. The test takes an encrypted message, public and private key from encryptor module and performs decryption. The tests asserts that the output of the decryption module matches the original test input string. 
+Decryption is similar to encryption but in reverse: first the modular exponentation is performed and then the result is turned back to a string. The test takes an encrypted message, the public and private keys from the encryptor module and performs decryption. The tests asserts that the output of the decryption module matches the original test input string. 
 
 #### Padding
 The padding module implements the Optimal Asymmteric Encryption Padding using the SHA-256 hash function. It is tested with:
 - End-to-end padding and un padding test.
-  This is tested with two inputs: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris` and `!?=)&%€äöå023546`. The tests pass if the result of padding followed by unpadding matches the original message in bytes)
+  This is tested with two inputs: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris` and `!?=)&%€äöå023546`. The tests pass if the result of padding followed by unpadding matches the original message in bytes
 - Message length test.
-  Testing that the message length doesn't exceed the maximum length allowed by 2048-bit n modulus. The allowed length for the message is `k - 2 * 32 - 2` where `k` is the length of modulun n in bytes. The test ensures that the actual message length in bytes is less than or equal to this maximum.
+  Testing that the message length doesn't exceed the maximum length allowed by 2048-bit `n` modulus. The allowed length for the message is `k - 2 * 32 - 2` where `k` is the length of modulus `n` in bytes. The test ensures that the actual message length in bytes is less than or equal to this maximum.
 - Invalid mask generation length.
-  Testing that the mask generation function raises Value Error when the given length is too long. Mask generation function gets seed and desired length as parameters and checks if the length is too long before proceeding. The test assures that if the length exceed the maximum the function raises an Value Error. The test input is `l = 137438953475` which I calculated to exceed the limit of maximum length `(32 << 32)`.
+  Testing that the mask generation function raises Value Error when the given length is too long. Mask generation function gets a seed and the desired length as parameters and checks if the length is too long before proceeding. The test assures that if the length exceeds the maximum, the function it raises an Value Error. The test input is `l = 137438953475` which I calculated to exceed the limit of the maximum length `(32 << 32)`.
 - XOR returns correct values
-   The XOR method is tested with known inputs to make sure it returns correct values. The method is tested with inputs: ` a= b'\x01\x00', b= b'\x00\x10'` and their expected value `272` is turned into bytes as the method returns the result in bytes. The test passes if the expected value matches the returned result.
+   The XOR method is tested with known inputs to make sure it returns the correct values. The method is tested with inputs: ` a= b'\x01\x00', b= b'\x00\x10'` and their expected value `272` is turned into bytes, as the method returns the result in bytes. The test passes if the expected value matches the returned result.
 - Padding sting has the correct length
-  The padding string should have the length `k - mLen - 2 * hLen`. The test makes sure that the method return a padding string of the correct length based on a known input message, modulus `n` and `hLen=32`
+  The padding string should have the length `k - mLen - 2 * hLen`. The test makes sure that the method returns a padding string of the correct length based on a known input message, modulus `n` and `hLen=32`
 - Incorrect padding
-  If the encoded padded message is not padded correctly the method should return None. This is tested with giving the function a test input where the first byte is not 0x00 as it should be in correclty padded encoded message. The test passes if the method returns None
+  If the encoded padded message is not padded correctly the method should return None. This is tested with giving the function a test input, where the first byte is not 0x00 as it should be in the correct padded encoded message. The test passes if the method returns None
 
 The padding module is also tested indirectly though encryption and decryption tests since both modules are depended on the padding module. 
 
@@ -80,7 +80,7 @@ The integration is tested with same outputs as the encryption and decryption:
 - `!?=)&%€äöå023546`
 - `Hello World!`
 
-The tests call the encryptiong module with a test input and it returns the encrypted message, public key and private key. The decryption module is then called using the encrypted message and private key. The tests assert that the decrypted output matches the test input. Although the key generation or padding module is not explicitly called in the integration tests, the encryption module relies on key generation and both encryption and decryption use padding module. This ensures that the integration between modules work.
+The tests call the encrypting module with a test input and it returns the encrypted message, the public key and private key. The decryption module is then called using the encrypted message and private key. The tests assert that the decrypted output matches the test input. Although the key generation or padding module is not explicitly called in the integration tests, the encryption module relies on key generation and both encryption and decryption use padding module. This ensures that the integration between modules work.
 
 
 ## How the tests can be repeated
