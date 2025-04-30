@@ -21,7 +21,7 @@ The program has four main components: key generation, encryption, decryption and
 
 ### GUI
 
-I started the project with finishing the GUI first. The GUI allows user to input a message of 1-190 characters. This is the maximum plaintext size with padding that can be encrypted with a 2048-bit RSA key. The GUI also generates a separate txt file where users can find both public and private keys as well as displaying them on the screen. 
+I started the project with finishing the GUI first. The GUI allows user to input a message of 1-190 bytes. This is the maximum plaintext size with padding that can be encrypted with a 2048-bit RSA key. The GUI also generates a separate txt file where users can find both public and private keys as well as displaying them on the screen. 
 
 
 ### Key generation
