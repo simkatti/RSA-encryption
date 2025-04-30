@@ -100,7 +100,7 @@ class KeyGenerator:
         return True
 
     def factor_out_powers_of_two(self, n):
-        """Outputs values s and n. 
+        """Outputs values s and d. 
         s is how many times the number 2 is factor of n 
         and d is n with all factors of 2 removed  """
         s = 0
