@@ -4,7 +4,7 @@
 
 This is a course project for the "Algorithms and AI Lab" course in University of Helsinki's bachelor program in computer science. This project focuses on RSA cryptography with the 2048 bit security standard and OAEP padding.
 
-The program allows user to input 1 - 190 character message which it then encrypts and decrypts displaying public and private keys. 
+The program allows user to input 1 - 190 byte message which it then encrypts and decrypts displaying public and private keys. 
 
 ## Installation instructions
 
