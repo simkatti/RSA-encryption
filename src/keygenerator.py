@@ -91,7 +91,7 @@ class KeyGenerator:
             x = pow(a, d, n)
             if x in (1, n - 1):
                 continue
-            for _ in range(s):
+            for _ in range(s-1):
                 x = pow(x, 2, n)
                 if x == n - 1:
                     break
