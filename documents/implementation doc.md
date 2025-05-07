@@ -30,8 +30,8 @@ Key generation is implemented in keygenerator.py. The module has methods for gen
 The list of small prime numbers are calculated with the Sieve of Eratosthenes [[2]](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes). I chose to generate 1229 first primes (10000 iterations) for better efficiency. This algorithm starts with a list of numbers (0 to 10,000) and iteratively marks multiples of each prime as False. At the end, the remaining non False values are prime numbers.
 
 Miller-Rabins algorithm starts by factoring out the powers of two from the large prime candidate to get $s$ and $d$, where $s$ is the number of times the number 2 is a factor of $n$ and $d$ is $n$ with all its factors of 2 removed. The algorithm then repeats modular exponentiation $k$ times and returns true if either of the following requirements are continiously met:
-1. $a^d ≡ \mod n-1$
-2. $a^{2d} ≡ -1 \mod n-1$
+1. $a^d ≡ 1 \mod n
+2. $a^{2d} ≡ -1 \mod n$
 
 If the first requirement fails the second requirement is tested $s-1$ times or until the second requirement is met. I chose $k=100$ because higher value of k gives higher accuracy whether the $n$ is prime [[3]](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test).
 
