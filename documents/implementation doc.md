@@ -31,7 +31,7 @@ The list of small prime numbers are calculated with the Sieve of Eratosthenes [[
 
 Miller-Rabins algorithm starts by factoring out the powers of two from the large prime candidate to get $s$ and $d$, where $s$ is the number of times the number 2 is a factor of $n$ and $d$ is $n$ with all its factors of 2 removed. The algorithm then repeats modular exponentiation $k$ times and returns true if either of the following requirements are continiously met:
 1. $a^d ≡ 1 \mod n$
-2. $a^{2d} ≡ -1 \mod n$
+2. $a^{2^r d} ≡ -1 \mod n$
 
 If the first requirement fails the second requirement is tested $s-1$ times or until the second requirement is met. I chose $k=100$ because higher value of k gives higher accuracy whether the $n$ is prime [[3]](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test).
 
