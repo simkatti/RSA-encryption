@@ -15,4 +15,4 @@ The program allows user to input 1 - 190 byte message which it then encrypts and
 5. `poetry run python3 src/app.py`
 6. `poetry run pytest src/tests` (for running tests)
 
-Find more detailed instructions [here](https://github.com/simkatti/RSA-encryption/blob/main/documents/instruction%20for%20use.md).
+Head to the [wiki](https://github.com/simkatti/RSA-encryption/wiki) for more information about instructions, testing and implementation.
